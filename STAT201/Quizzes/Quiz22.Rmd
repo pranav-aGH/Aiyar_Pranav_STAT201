@@ -1,0 +1,72 @@
+---
+title: "quiz22"
+output: html_document
+date: "2025-05-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+getwd()
+list.files()
+```
+
+```{r}
+df <- read.csv("capital_cities.csv", stringsAsFactors = FALSE)
+country_names               <- df[[1]]
+coordinates_capital_cities  <- as.matrix(df[, 3:4])
+us_idx  <- which(country_names == "United States")
+
+# 3. Extract DC’s coordinates
+dc_coords <- coordinates_capital_cities[us_idx, ]  # a length-2 numeric vector
+
+# 4. Build a matrix that repeats DC’s coords on every row
+dc_mat <- matrix(dc_coords, 
+                 nrow = nrow(coordinates_capital_cities), 
+                 ncol = 2, 
+                 byrow = TRUE)
+
+# 5. Subtract to get the difference matrix (lat-long deltas)
+delta_mat <- coordinates_capital_cities - dc_mat
+
+# 6. Compute Euclidean distance for each row
+distances <- apply(delta_mat, 1, function(x) sqrt(sum(x^2)))
+
+# 7. Exclude the U.S. entries (distance = 0 for both)
+bad   <- country_names %in% c("United States", "US Minor Outlying Islands")
+distances[bad] <- NA
+
+# 8. Order by ascending distance and take the top 10
+ord      <- order(distances, na.last = TRUE)
+top10_i  <- ord[1:10]
+
+# 9. Print the results
+cat("Top 10 foreign capitals closest to Washington DC:\n")
+print(country_names[top10_i])
+
+cat("\nTheir coordinates (lat, lon):\n")
+print(coordinates_capital_cities[top10_i, ])
+
+```
