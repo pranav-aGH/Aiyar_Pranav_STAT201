@@ -1,0 +1,179 @@
+---
+title: "exam_simulation"
+output: html_document
+date: "2025-06-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### 🔹 **Question 1: Control Flow, Loops, and Atomic Vectors**
+
+You are given a numeric vector:
+
+`nums <- c(12, 7, 5, 16, 8, 0, 23)`
+
+**Tasks:**
+
+a)  Write a `for` loop that prints whether each element is **positive**, **negative**, or **zero**.
+
+    ```{r}
+    nums <- c(12, 7, 5, 16, 8, 0, 23)
+    for (i in nums) {
+      if (i > 0){
+        cat(i, "is positive \n")
+        } else if(i < 0){
+           cat(i, "is negative \n")
+        } else cat(i, "is zero \n")
+
+
+      }
+
+
+    ```
+
+b)  Use a `while` loop to print only the numbers in the vector that are **greater than 10**.
+
+```{r}
+j = 1
+while(j < length(nums)){
+  if(nums[j] > 10){
+    cat(nums[j], "\n")
+  }
+  j = j + 1
+}
+
+```
+
+a)  Count how many elements in `nums` are even numbers using a `for` loop and `if` statement.
+
+```{r}
+count = 0
+for(i in nums){
+    if(i %% 2 == 0){
+      count = count + 1
+    }
+}
+print(count)
+
+```
+
+------------------------------------------------------------------------
+
+### 🔹 **Question 2: Matrices and Functions**
+
+**Tasks:**
+
+a)  Create a 4x4 matrix with values from 1 to 16, filled by row.\
+
+```{r}
+mat <- matrix(1:16, 4, 4)
+
+```
+
+a)  Write a function `above_threshold()` that takes a matrix and a threshold value as arguments and returns a **logical matrix** of the same size indicating which elements are greater than the threshold.
+
+```{r}
+logic = matrix(, nrow = 4, ncol = 4)
+above_threshold <- function(threshold = 0) {
+  return(mat > threshold)
+}
+
+
+```
+
+a)  
+
+b)  Use this function to find which elements in the matrix are greater than 10.
+
+```{r}
+print(above_threshold(12))
+
+```
+
+------------------------------------------------------------------------
+
+### 🔹 **Question 3: Lists and Nested Access**
+
+You are given the following list:
+
+`book <- list(   title = "R for Beginners",   author = "Jane Doe",   year = 2021,   ratings = list(good = 15, average = 5, poor = 2) )`
+
+```{r}
+book <- list(   title = "R for Beginners",   author = "Jane Doe",   year = 2021,   ratings = list(good = 15, average = 5, poor = 2) )
+book[[1]]
+```
+
+**Tasks:**
+
+a)  Extract the title from the list.\
+
+Extract the number of "average" ratings using double bracket `[[` notation.
+
+```{r}
+book[["ratings"]][["average"]]
+```
+
+\
+
+Add a new element to the list called `publisher` with the value `"DataPress"`.
+
+```{r}
+book$Publisher = "DataPress" 
+```
+
+a)  Write a line of code that returns the sum of all ratings.
+
+```{r}
+sum(unlist(book[["ratings"]]))
+
+```
+
+------------------------------------------------------------------------
+
+### 🔹 **Question 4: Data Frames and Apply Functions**
+
+You have the following data frame:
+
+`grades <- data.frame(   student = c("Alice", "Bob", "Charlie"),   math = c(90, 75, 85),   science = c(88, 80, 89),   english = c(92, 70, 85) )`
+
+**Tasks:**
+
+a)  Add a new column `average` containing the average of the three subjects for each student using `apply()`.
+
+```{r}
+grades <- data.frame(   student = c("Alice", "Bob", "Charlie"),   math = c(90, 75, 85),   science = c(88, 80, 89),   english = c(92, 70, 85) )
+grades$average = apply(grades[, 2:4], 1, mean)
+grades
+?apply
+```
+
+a)  Add a `grade` column where:
+
+    a)  "A" for average ≥ 90
+
+    b)  "B" for average ≥ 80 and \< 90
+
+    c)  "C" for average \< 80
+
+(Hint: use `ifelse()` or `cut()`.)
+
+```{r}
+grades$grade = ifelse(grades$average >= 90, "A", ifelse(grades$average >= 80, "B", "C"))
+grades
+```
+
+\
+
+c)  Filter and return only students with a grade of "A".
+
+```{r}
+A_students = grades[grades$grade == "A",]
+A_students
+
+```
+
+```{r}
+print("Te amo Lizhen Shi")
+```
