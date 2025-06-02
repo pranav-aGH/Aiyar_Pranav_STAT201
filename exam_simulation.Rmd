@@ -173,3 +173,7 @@ A_students = grades[grades$grade == "A",]
 A_students
 
 ```
+
+```{r}
+print("Te amo Lizhen Shi")
+```
